@@ -9,17 +9,17 @@ import Login from "./pages/Login";
 function App() {
   return (
       <div>
-        {/*<Router>*/}
-        {/*  <Navbar />*/}
-        {/*  <Routes>*/}
-        {/*    <Route path="/" element={<Home />} />*/}
-        {/*    <Route path="/login" element={<Login />} />*/}
-        {/*    <Route*/}
-        {/*        path="/profile"*/}
-        {/*        element={<Profile />}*/}
-        {/*    />*/}
-        {/*  </Routes>*/}
-        {/*</Router>*/}
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+                path="/profile"
+                element={<Profile />}
+            />
+          </Routes>
+        </Router>
       </div>
   );
 }
