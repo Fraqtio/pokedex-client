@@ -19,6 +19,7 @@ class PokemonStore {
     isFullDataLoaded = false;   // Флаг, указывающий, загружены ли все покемоны (для поиска)
     favorites = new Set();
     authenticated = !!localStorage.getItem('token');
+    isInitialized = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -37,17 +38,17 @@ class PokemonStore {
     };
 
     // Загружает общее количество покемонов
-    async fetchTotalPokemonCount() {
+    fetchTotalPokemonCount = async () => {
         const maxCount = await getPokemonMaxCount();
 
         runInAction(() => {
             this.pokemonMaxCount = maxCount;
             this.pokemonCount = maxCount;
         });
-    }
+    };
 
     // Загружает полный список покемонов (используется для поиска)
-    async fetchAllPokemonData() {
+    fetchAllPokemonData = async () => {
         try {
             const payload = { limit: this.pokemonMaxCount, offset: 0 };
             const data = await fetchPokemonList(payload);
@@ -60,9 +61,9 @@ class PokemonStore {
         } catch (error) {
             console.error("Full list loading error:", error);
         }
-    }
+    };
 
-    async fetchPokemonByType() {
+    fetchPokemonByType = async () => {
         for (let i = 0; i < allTypes.length; i++) {
             const typeName = allTypes[i];
             try {
@@ -87,9 +88,9 @@ class PokemonStore {
                 console.error(`Loading error for type ${typeName}:`, error);
             }
         }
-    }
+    };
 
-    async fetchUserFavorites() {
+    fetchUserFavorites = async () => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/favorites`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
@@ -106,9 +107,9 @@ class PokemonStore {
             this.favorites.clear();  // Очищаем старое содержимое
             data.forEach(pokemon => this.favorites.add(pokemon));  // Добавляем новые элементы
         });
-    }
+    };
 
-    async toggleFavorite(pokemonName) {
+    toggleFavorite = async (pokemonName) => {
         const method = this.favorites.has(pokemonName) ? "DELETE" : "POST";
 
         try {
@@ -134,10 +135,10 @@ class PokemonStore {
         } catch (error) {
             console.error("Net error:", error);
         }
-    }
+    };
 
     // Загружает покемонов с учетом пагинации и поиска
-    async fetchPokemonList() {
+    fetchPokemonList = async() => {
         runInAction(() => { this.isLoading = true; });
 
         try {
@@ -202,7 +203,7 @@ class PokemonStore {
                 this.isLoading = false;
             });
         }
-    }
+    };
 
     fetchFavoritePokemons = async () => {
         runInAction(() => {
@@ -276,11 +277,11 @@ class PokemonStore {
         }
     };
 
-    clearPokemons() {
+    clearPokemons = () => {
         runInAction(() => {
             this.pokemons = [];
         });
-    }
+    };
 
     // Обрабатывает данные о покемоне, извлекая нужные параметры
     mapPokemonDetails(data) {
@@ -298,14 +299,14 @@ class PokemonStore {
     }
 
     // Устанавливает строку поиска и сбрасывает offset
-    updateSearchQuery(query) {
+    updateSearchQuery = (query) => {
         runInAction(() => {
             this.searchQuery = query.toLowerCase();
             this.offset = 0;
             localStorage.setItem("searchQuery", query);
         });
         this.fetchPokemonList(); // Добавляем вызов
-    }
+    };
 
     updateSearchQueryProfile = (query) => {
         runInAction(() => {
@@ -317,18 +318,18 @@ class PokemonStore {
     };
 
     // Устанавливает лимит покемонов на странице
-    setLimit(newLimit) {
+    setLimit = (newLimit) => {
         runInAction(() => {
             this.limit = newLimit;
             this.offset = 0;  // если меняется лимит, сбрасываем offset
         });
-    }
+    };
 
-    setOffset(newOffset) {
+    setOffset = (newOffset) => {
         runInAction(() => {
             this.offset = newOffset;
         });
-    }
+    };
 
     toggleTypeFilter = (type) => {
         // Очищаем при выборе кнопки "All"
@@ -360,21 +361,19 @@ class PokemonStore {
     };
 
     // Переход на следующую страницу
-    goToNextPage() {
+    goToNextPage = () => {
         runInAction(() => {
             this.offset += this.limit;
             this.fetchPokemonList();
         });
+    };
 
-    }
-
-    goToPrevPage() {
+    goToPrevPage = () => {
         runInAction(() => {
             this.offset = Math.max(0, this.offset - this.limit);
             this.fetchPokemonList();
         });
-
-    }
+    };
 }
 
 const pokemonStoreInstance = new PokemonStore();

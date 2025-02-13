@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import pokemonStore from "../stores/PokemonStore";
-import {useLocation} from "react-router-dom"; // Импортируем PokemonStore
+import {useLocation} from "react-router-dom";
+import {runInAction} from "mobx"; // Импортируем PokemonStore
 
 const PokemonInitializer = () => {
     const location = useLocation();
@@ -9,7 +10,7 @@ const PokemonInitializer = () => {
         let isMounted = true; // Флаг, чтобы отслеживать монтирование компонента
 
         const initialize = async () => {
-            if (!isMounted) return; // Если компонент размонтирован, не выполняем дальнейшие действия
+            if (!isMounted || pokemonStore.isInitialized) return;// Если компонент размонтирован, не выполняем дальнейшие действия
 
             try {
                 await pokemonStore.checkAuth();
@@ -31,6 +32,9 @@ const PokemonInitializer = () => {
                     await pokemonStore.fetchUserFavorites();
                 }
 
+                runInAction(() => {
+                    pokemonStore.isInitialized = true;
+                });
             } catch (err) {
                 console.error("Init error:", err);
             }
