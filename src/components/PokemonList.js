@@ -1,9 +1,8 @@
 import { observer } from "mobx-react-lite";
-import {useEffect, useMemo, useState} from "react";
+import { useEffect, useMemo, useState } from "react";
 import pokemonStore from "../stores/PokemonStore";
 import PokemonCard from "./PokemonCard";
 import Pagination from "./Pagination";
-import { debounce } from "lodash";
 import { allTypes, typeColors } from "../constants/pokeTypes";
 
 const PokemonList = observer(() => {
@@ -27,13 +26,12 @@ const PokemonList = observer(() => {
         [pokemonCount, limit]
     );
 
-    const debouncedSearch = debounce(() => {
-        pokemonStore.updateSearchQuery(searchTerm.toLowerCase());
-    }, 150);
-
     useEffect(() => {
-        debouncedSearch();
-        return () => debouncedSearch.cancel();
+        const handler = setTimeout(() => {
+            pokemonStore.updateSearchQuery(searchTerm.toLowerCase());
+        }, 100);
+
+        return () => clearTimeout(handler); // Отмена предыдущего таймера при новом вводе
     }, [searchTerm]);
 
     return (
@@ -54,7 +52,7 @@ const PokemonList = observer(() => {
                 <div style={{ display: "flex", justifyContent: "center", flex: "1" }}>
                     <Pagination
                         currentPage={currentPage}
-                        totalPages={totalPages} // Используем обновленный стейт
+                        totalPages={totalPages}
                         onPrev={() => pokemonStore.goToPrevPage()}
                         onNext={() => pokemonStore.goToNextPage()}
                         onPageChange={(page) => {
@@ -77,11 +75,7 @@ const PokemonList = observer(() => {
                     type="text"
                     placeholder="Pokemon search..."
                     value={searchTerm}
-                    onChange={(e) => {
-                        const query = e.target.value.toLowerCase();
-                        setSearchTerm(query);
-                        debouncedSearch();
-                    }}
+                    onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
                     style={{
                         padding: "8px",
                         width: "100%",
