@@ -30,10 +30,11 @@ const FavoriteList = observer(() => {
             Math.max(1, Math.ceil(pokemonCount / limit)),
         [pokemonCount, limit]
     );
-    console.log(`From_FavList:${totalPages}`);
+
     useEffect(() => {
         const handler = setTimeout(() => {
             pokemonStore.updateSearchQueryProfile(searchTerm.toLowerCase());
+            pokemonStore.fetchFavoritePokemons();
         }, 100);
 
         return () => clearTimeout(handler); // Отмена предыдущего таймера при новом вводе
