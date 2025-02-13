@@ -32,7 +32,7 @@ class PokemonStore {
     checkAuth = () => {
         const token = localStorage.getItem('token');
         runInAction(() => {
-            this.isAuthenticated = !!token;
+            this.authenticated = !!token;
         });
     };
 
@@ -90,7 +90,7 @@ class PokemonStore {
     }
 
     async fetchUserFavorites() {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/favorites`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/favorites`, {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
 
@@ -110,18 +110,20 @@ class PokemonStore {
 
     async toggleFavorite(pokemonName) {
         const method = this.favorites.has(pokemonName) ? "DELETE" : "POST";
+        const body = method === "POST" ? JSON.stringify({ pokemonName }) : null;
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/favorites/${pokemonName}`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/favorites`, {
                 method,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
+                body
             });
 
             if (response.ok) {
-                runInAction(() => { // Оборачиваем изменение состояния в runInAction
+                runInAction(() => {
                     if (this.favorites.has(pokemonName)) {
                         this.favorites.delete(pokemonName);
                     } else {
@@ -325,7 +327,7 @@ class PokemonStore {
         });
     }
 
-    togglePokemonTypeFilter(type) {
+    toggleTypeFilter(type) {
         // Очищаем при выборе кнопки "All"
         if (type === null) {
             this.selectedTypes = [];
@@ -342,27 +344,15 @@ class PokemonStore {
         else {
             this.selectedTypes = [this.selectedTypes[1], type];
         }
+    }
+
+    togglePokemonTypeFilter(type) {
+        this.toggleTypeFilter(type);
         this.fetchPokemonList();
     }
 
     toggleFavoriteTypeFilter(type) {
-        // Очищаем при выборе кнопки "All"
-        if (type === null) {
-            this.selectedTypes = [];
-        }
-        // Если тип уже выбран - удаляем его
-        else if (this.selectedTypes.includes(type)) {
-            this.selectedTypes = this.selectedTypes.filter(t => t !== type);
-        }
-        // Если не выбран и меньше 2 выбранных - добавляем
-        else if (this.selectedTypes.length < 2) {
-            this.selectedTypes = [...this.selectedTypes, type];
-        }
-        // Если уже выбрано 2 типа - заменяем первый
-        else {
-            this.selectedTypes = [this.selectedTypes[1], type];
-        }
-
+        this.toggleTypeFilter(type);
         this.fetchFavoritePokemons(); // Загружаем избранных покемонов с новым фильтром
     }
 

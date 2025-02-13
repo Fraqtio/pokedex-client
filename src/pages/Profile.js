@@ -19,7 +19,7 @@ const Profile = () => {
                 const storedToken = localStorage.getItem("token");
 
                 // Запрашиваем данные о пользователе
-                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
                     headers: {Authorization: `Bearer ${storedToken}`},
                 });
 
