@@ -31,30 +31,21 @@ const FavoriteList = observer(() => {
         [pokemonCount, limit]
     );
 
-    useEffect(() => {
-        const savedQuery = localStorage.getItem("searchQuery");
-        if (savedQuery) {
-            setSearchTerm(savedQuery);
-            updateSearchQueryProfile(savedQuery);
-        }
-    }, []);
+    const debouncedSearch = debounce(() => {
+        pokemonStore.updateSearchQueryProfile(searchTerm.toLowerCase());
+    }, 150);
 
     useEffect(() => {
-        if (searchTerm) {
-            pokemonStore.updateSearchQueryProfile(searchTerm.toLowerCase());
-        }
+        debouncedSearch();
+        return () => debouncedSearch.cancel();
     }, [searchTerm]);
 
-    const debouncedUpdateSearch = useMemo(() => debounce((query) => {
-        updateSearchQueryProfile(query);
-    }, 200), [updateSearchQueryProfile]);
-
-    // Эффект для загрузки данных при изменении параметров
-    useEffect(() => {
-        if (searchQuery !== undefined) {
-            fetchFavoritePokemons(); // Если query инициализировано, только тогда запрашиваем
-        }
-    }, [searchQuery, selectedTypes, offset, limit, fetchFavoritePokemons]);
+    // // Эффект для загрузки данных при изменении параметров
+    // useEffect(() => {
+    //     if (searchQuery !== undefined) {
+    //         fetchFavoritePokemons(); // Если query инициализировано, только тогда запрашиваем
+    //     }
+    // }, [searchQuery, selectedTypes, offset, limit, fetchFavoritePokemons]);
 
 
     return (
@@ -101,7 +92,7 @@ const FavoriteList = observer(() => {
                     onChange={(e) => {
                         const query = e.target.value.toLowerCase();
                         setSearchTerm(query);
-                        debouncedUpdateSearch(query);
+                        debouncedSearch(query);
                     }}
                     style={{
                         padding: "8px",

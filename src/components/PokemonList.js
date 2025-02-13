@@ -27,13 +27,12 @@ const PokemonList = observer(() => {
         [pokemonCount, limit]
     );
 
+    const debouncedSearch = debounce(() => {
+        pokemonStore.updateSearchQuery(searchTerm.toLowerCase());
+    }, 150);
+
     useEffect(() => {
-        const debouncedSearch = debounce(() => {
-            pokemonStore.updateSearchQuery(searchTerm.toLowerCase());
-        }, 150);
-
         debouncedSearch();
-
         return () => debouncedSearch.cancel();
     }, [searchTerm]);
 
@@ -81,8 +80,7 @@ const PokemonList = observer(() => {
                     onChange={(e) => {
                         const query = e.target.value.toLowerCase();
                         setSearchTerm(query);
-                        const debounced = debounce(() => pokemonStore.updateSearchQuery(query), 100);
-                        debounced();
+                        debouncedSearch();
                     }}
                     style={{
                         padding: "8px",
