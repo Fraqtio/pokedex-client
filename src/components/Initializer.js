@@ -12,10 +12,11 @@ const PokemonInitializer = () => {
             if (!isMounted) return; // Если компонент размонтирован, не выполняем дальнейшие действия
 
             try {
+                await pokemonStore.checkAuth();
+
                 // Загружаем общее количество покемонов
                 await pokemonStore.fetchTotalPokemonCount();
 
-                await pokemonStore.checkAuth();
                 // Загружаем данные по типам
                 await pokemonStore.fetchPokemonByType();
 
