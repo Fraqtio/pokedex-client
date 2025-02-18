@@ -1,23 +1,22 @@
 import { observer } from "mobx-react-lite";
 import pokemonStore from "../stores/PokemonStore";
+import { styles } from "../constants/Styles";
+import blackPok from "../assets/blackPok.png";
+import coloredPok from "../assets/coloredPok.png";
 
 const FavoriteButton = observer(({ pokemonName }) => {
+    const isFavorite = pokemonStore.favorites.has(pokemonName);
+
     return (
         <button
             onClick={() => pokemonStore.toggleFavorite(pokemonName)}
-            style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                backgroundColor: pokemonStore.favorites.has(pokemonName) ? "#ffd700" : "rgba(255, 255, 255, 0.8)",
-                border: "none",
-                cursor: "pointer",
-                fontSize: "24px",
-                padding: "5px",
-                borderRadius: "50%",
-            }}
+            style={styles.favoriteButton}
         >
-            {pokemonStore.favorites.has(pokemonName) ? "★" : "☆"}
+            <img
+                src={isFavorite ? coloredPok : blackPok}
+                alt="Favorite"
+                style={styles.favoriteIcon}
+            />
         </button>
     );
 });
