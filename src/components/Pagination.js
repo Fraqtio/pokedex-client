@@ -1,15 +1,5 @@
 import React from "react";
-
-const buttonStyle = {
-    padding: "8px 12px",
-    border: "1px solid #ddd",
-    backgroundColor: "#fff",
-    color: "#000",
-    cursor: "pointer",
-    borderRadius: "5px",
-    margin: "0 2px",
-    transition: "all 0.2s ease",
-};
+import { styles } from "../constants/Styles";
 
 const Pagination = ({
                         currentPage,
@@ -41,17 +31,16 @@ const Pagination = ({
     const limitOptions = [10, 20, 50];
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center", marginTop: "20px" }}>
+        <div style={styles.paginationContainer}>
             {/* Кнопки выбора количества элементов */}
-            <div style={{ display: "flex", gap: "5px" }}>
+            <div style={styles.limitButtonsContainer}>
                 {limitOptions.map((option) => (
                     <button
                         key={option}
                         onClick={() => onLimitChange(option)}
                         style={{
-                            ...buttonStyle,
-                            backgroundColor: option === currentLimit ? "#007bff" : "#fff",
-                            color: option === currentLimit ? "#fff" : "#000",
+                            ...styles.paginationButton,
+                            ...(option === currentLimit ? styles.activePaginationButton : {}),
                         }}
                     >
                         {option} per page
@@ -60,14 +49,13 @@ const Pagination = ({
             </div>
 
             {/* Основная пагинация */}
-            <div style={{ display: "flex", gap: "5px" }}>
+            <div style={styles.paginationButtons}>
                 <button
                     onClick={onPrev}
                     disabled={isPrevDisabled}
                     style={{
-                        ...buttonStyle,
-                        backgroundColor: isPrevDisabled ? "#f0f0f0" : "#fff",
-                        cursor: isPrevDisabled ? "not-allowed" : "pointer",
+                        ...styles.paginationButton,
+                        ...(isPrevDisabled ? styles.disabledPaginationButton : {}),
                     }}
                 >
                     Prev
@@ -75,13 +63,12 @@ const Pagination = ({
 
                 {pages.map((page, index) => (
                     <React.Fragment key={page}>
-                        {index > 0 && page - pages[index - 1] > 1 && <span style={{ alignSelf: "flex-end" }}>...</span>}
+                        {index > 0 && page - pages[index - 1] > 1 && <span style={styles.ellipsis}>...</span>}
                         <button
                             onClick={() => onPageChange(page)}
                             style={{
-                                ...buttonStyle,
-                                backgroundColor: page === currentPage ? "#007bff" : "#fff",
-                                color: page === currentPage ? "#fff" : "#000",
+                                ...styles.paginationButton,
+                                ...(page === currentPage ? styles.activePaginationButton : {}),
                             }}
                         >
                             {page}
@@ -93,9 +80,8 @@ const Pagination = ({
                     onClick={onNext}
                     disabled={isNextDisabled}
                     style={{
-                        ...buttonStyle,
-                        backgroundColor: isNextDisabled ? "#f0f0f0" : "#fff",
-                        cursor: isNextDisabled ? "not-allowed" : "pointer",
+                        ...styles.paginationButton,
+                        ...(isNextDisabled ? styles.disabledPaginationButton : {}),
                     }}
                 >
                     Next

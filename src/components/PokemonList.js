@@ -51,11 +51,11 @@ const PokemonList = observer(() => {
                         onPageChange={(page) => {
                             const newOffset = (page - 1) * limit;
                             pokemonStore.setOffset(newOffset);
-                            pokemonStore.fetchPokemonList();
+                            pokemonStore.filterPokemonList();
                         }}
                         onLimitChange={(newLimit) => {
                             pokemonStore.setLimit(newLimit);
-                            pokemonStore.fetchPokemonList();
+                            pokemonStore.filterPokemonList();
                         }}
                         isPrevDisabled={offset === 0}
                         isNextDisabled={offset + limit >= pokemonCount}

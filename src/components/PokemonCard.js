@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { getTypeColor } from "../constants/pokeTypes";
 import FavoriteButton from "./FavoriteButton";
 import { styles } from "../constants/Styles";
+import pokemonStore from "../stores/PokemonStore";
 
 const PokemonCard = ({ name, image, types, stats, abilities, isFavorite }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const isLogged = !!localStorage.getItem("token");
 
     return (
         <div
@@ -14,7 +14,7 @@ const PokemonCard = ({ name, image, types, stats, abilities, isFavorite }) => {
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Кнопка избранного */}
-            {isLogged && <FavoriteButton pokemonName={name} initialIsFavorite={isFavorite} />}
+            {pokemonStore.isAuthenticated && <FavoriteButton pokemonName={name} initialIsFavorite={isFavorite} />}
 
             <img src={image} alt={name} style={styles.image} />
             <h3 style={styles.name}>{name}</h3>

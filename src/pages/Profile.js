@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import FavoriteList from "../components/FavoriteList";
-import pokemonStore from "../stores/PokemonStore";
 import Initializer from "../components/Initializer";
 
 const Profile = () => {
@@ -24,8 +23,6 @@ const Profile = () => {
                 });
 
                 setUser(response.data);
-                pokemonStore.clearPokemons();
-                await pokemonStore.fetchUserFavorites();
             } catch (err) {
                 console.error("Data loading error:", err);
                 localStorage.removeItem("token");

@@ -18,16 +18,20 @@ const PokemonInitializer = () => {
                 await pokemonStore.fetchTotalPokemonCount();
 
                 // Загружаем данные по типам
-                await pokemonStore.fetchPokemonByType();
+                if (!pokemonStore.isByTypeLoaded) {
+                    await pokemonStore.fetchPokemonByType();
+                }
 
-                await pokemonStore.fetchAllPokemonData();
+                if (!pokemonStore.isFullDataLoaded) {
+                    await pokemonStore.fetchAllPokemonData();
+                }
                 // Если мы не на странице профиля, загружаем полный список покемонов
                 if (!location.pathname.includes("/profile")) {
-                    await pokemonStore.fetchPokemonList();
+                    await pokemonStore.filterPokemonList();
                 }
 
                 // Загружаем избранных покемонов, если есть токен
-                if (localStorage.getItem("token")) {
+                if (pokemonStore.isAuthenticated) {
                     await pokemonStore.fetchUserFavorites();
                 }
             } catch (err) {

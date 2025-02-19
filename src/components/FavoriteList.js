@@ -8,20 +8,25 @@ import { styles } from "../constants/Styles";
 
 const FavoriteList = observer(() => {
     useEffect(() => {
-        pokemonStore.fetchFavoritePokemons();
+        pokemonStore.filterFavoritePokemons();
     }, []);
 
     const [searchTerm, setSearchTerm] = useState("");
     const { selectedTypes, offset, limit, pokemonCount, pokemons } = pokemonStore;
 
-    const currentPage = useMemo(() => Math.floor(offset / limit) + 1, [offset, limit]);
-    const totalPages = useMemo(() => Math.max(1, Math.ceil(pokemonCount / limit)), [pokemonCount, limit]);
+    const currentPage = useMemo(() =>
+        Math.floor(offset / limit) + 1,
+        [offset, limit]);
+
+    const totalPages = useMemo(() =>
+        Math.max(1, Math.ceil(pokemonCount / limit)),
+        [pokemonCount, limit]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
             pokemonStore.updateSearchQueryProfile(searchTerm.toLowerCase());
-            pokemonStore.fetchFavoritePokemons();
-        }, 100);
+            pokemonStore.filterFavoritePokemons();
+        }, 50);
         return () => clearTimeout(handler);
     }, [searchTerm]);
 
@@ -39,11 +44,11 @@ const FavoriteList = observer(() => {
                         onPageChange={(page) => {
                             const newOffset = (page - 1) * pokemonStore.limit;
                             pokemonStore.setOffset(newOffset);
-                            pokemonStore.fetchFavoritePokemons();
+                            pokemonStore.filterFavoritePokemons();
                         }}
                         onLimitChange={(newLimit) => {
                             pokemonStore.setLimit(newLimit);
-                            pokemonStore.fetchFavoritePokemons();
+                            pokemonStore.filterFavoritePokemons();
                         }}
                         isPrevDisabled={offset === 0}
                         isNextDisabled={offset + limit >= pokemonCount}
