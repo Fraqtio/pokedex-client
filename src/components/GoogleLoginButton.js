@@ -1,4 +1,5 @@
 import React from "react";
+import { styles } from "../constants/Styles"; // Импортируем стили
 
 const GoogleLoginButton = () => {
     const handleGoogleLogin = () => {
@@ -6,22 +7,10 @@ const GoogleLoginButton = () => {
     };
 
     return (
-        <button onClick={handleGoogleLogin} style={styles.button}>
+        <button onClick={handleGoogleLogin} style={styles.googleButton}>
             Login via Google
         </button>
     );
-};
-
-const styles = {
-    button: {
-        padding: "10px 20px",
-        backgroundColor: "#4285F4",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "16px",
-    },
 };
 
 export default GoogleLoginButton;

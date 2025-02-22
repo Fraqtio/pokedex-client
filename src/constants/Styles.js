@@ -4,7 +4,8 @@ export const styles = {
         display: "grid",
         gap: "20px",
         justifyContent: "center",
-        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))"
+        gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+        padding: "20px 20px",
     },
 
     // Контейнер поиска
@@ -13,7 +14,7 @@ export const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         flexWrap: "wrap",
-        marginBottom: "20px"
+        padding: "20px 20px",
     },
 
     // Контейнер для пагинации
@@ -36,7 +37,7 @@ export const styles = {
         display: "flex",
         gap: "10px",
         flexWrap: "wrap",
-        marginBottom: "20px"
+        padding: "20px 20px",
     },
 
     // Стиль кнопки типа покемона
@@ -183,19 +184,59 @@ export const styles = {
         alignSelf: "flex-end",
     },
 
-    // Стили для контейнера навигации
+    // --- Навигация ---
     nav: {
         display: "flex",
         justifyContent: "space-around",
-        padding: "10px",
-        backgroundColor: "#f8f8f8",
-        borderBottom: "1px solid #ddd",
+        alignItems: "center",
+        padding: "12px 20px",
+        background: "linear-gradient(90deg, #007bff, #ff3d00)", // Градиентный фон
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // Тень для объема
     },
 
-    // Стили для ссылок в навигации
+    // --- Ссылки в навигации ---
     link: {
         textDecoration: "none",
-        color: "#333",
+        color: "white",
         fontSize: "18px",
+        fontWeight: "bold",
+        padding: "8px 16px",
+        borderRadius: "8px", // Закругленные кнопки
+        transition: "all 0.3s ease", // Плавная анимация
     },
+
+    // --- Эффект наведения на ссылки ---
+    linkHover: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)", // Легкий прозрачный фон
+        transform: "scale(1.05)", // Небольшое увеличение при наведении
+    },
+
+    // --- Активная ссылка ---
+    activeLink: {
+        textDecoration: "underline",
+        color: "#ffeb3b", // Желтый акцент, чтобы выделялась
+    },
+
+    // Кнопка входа через Google
+    googleButton: {
+        backgroundColor: "transparent",
+        color: "white",
+        border: "none",
+        cursor: "pointer",
+        fontSize: "16px",
+        fontWeight: "bold",
+        transition: "background 0.3s ease-in-out",
+    },
+
+    // Кнопка выхода
+    logoutButton: {
+        backgroundColor: "transparent",
+        color: "white",
+        border: "none",
+        cursor: "pointer",
+        fontSize: "16px",
+        fontWeight: "bold",
+        transition: "background 0.3s ease-in-out",
+    },
+
 };

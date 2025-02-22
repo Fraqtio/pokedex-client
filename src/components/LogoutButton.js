@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import pokemonStore from "../stores/PokemonStore";
+import { styles } from "../constants/Styles"; // Импортируем стили
 
 const LogoutButton = () => {
     const navigate = useNavigate();
@@ -12,22 +13,10 @@ const LogoutButton = () => {
     };
 
     return (
-        <button onClick={handleLogout} style={styles.button}>
+        <button onClick={handleLogout} style={styles.logoutButton}>
             Logout
         </button>
     );
-};
-
-const styles = {
-    button: {
-        padding: "10px 20px",
-        backgroundColor: "#dc3545",
-        color: "white",
-        border: "none",
-        borderRadius: "5px",
-        cursor: "pointer",
-        fontSize: "16px",
-    },
 };
 
 export default LogoutButton;
