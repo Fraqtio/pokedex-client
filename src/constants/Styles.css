@@ -1,0 +1,323 @@
+/* --- Контейнер для списка покемонов --- */
+.container {
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 20px;
+}
+
+/* --- Контейнер поиска --- */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+@media (max-width: 1000px) {
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* --- Поле ввода поиска --- */
+.search-input {
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+    flex-shrink: 0;
+}
+
+/* --- Контейнер для пагинации --- */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+/* --- Контейнер кнопок фильтров --- */
+.type-filters-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+/* --- Кнопка типа покемона --- */
+.type-button {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 20px;
+    text-transform: capitalize;
+    transition: all 0.2s ease;
+}
+
+/* --- Кнопка "Все" (сброс фильтрации) --- */
+.all-button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* --- Кнопка избранного --- */
+.favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+/* --- Иконка избранного --- */
+.favorite-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- Карточка покемона (улучшенная) --- */
+.card {
+    border: 4px solid transparent; /* Прозрачная граница для эффекта градиента */
+    border-radius: 12px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    background: linear-gradient(145deg, #f8f8f8, #e8e8e8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Градиентная рамка */
+.card::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(45deg, #ff4e50, #fc913a, #f9d423, #4caf50, #2c82c9, #8e44ad);
+    border-radius: 14px;
+    z-index: -1;
+    filter: blur(8px); /* Создаёт эффект мягкой светящейся обводки */
+    transition: opacity 0.3s ease;
+}
+
+/* Световой эффект на границе */
+.card::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 10px;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Эффект при наведении */
+.card:hover {
+    transform: scale(1.07);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* При наведении добавляем световой эффект */
+.card:hover::after {
+    opacity: 1;
+}
+
+/* --- Изображение покемона --- */
+.image {
+    width: 100px;
+    height: 100px;
+}
+
+/* --- Имя покемона --- */
+.name {
+    text-transform: capitalize;
+}
+
+/* --- Контейнер типов покемона --- */
+.types-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+/* --- Тег типа покемона --- */
+.type-tag {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* --- Статистики покемона --- */
+.stats {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* --- Заголовок способностей --- */
+.ability-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* --- Способности покемона --- */
+.ability {
+    margin: 2px 0;
+}
+
+/* --- Контейнер пагинации --- */
+.pagination-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* --- Кнопки изменения лимита --- */
+.limit-buttons-container {
+    display: flex;
+    gap: 5px;
+}
+
+/* --- Кнопки пагинации --- */
+.pagination-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+/* --- Кнопка пагинации --- */
+.pagination-button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+
+.pagination-button:hover {
+    background-color: #eee;
+}
+
+/* --- Активная кнопка пагинации --- */
+.active-pagination-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* --- Отключенная кнопка пагинации --- */
+.disabled-pagination-button {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+/* --- Многоточие при больших страницах --- */
+.ellipsis {
+    align-self: flex-end;
+}
+
+/* --- Навигация --- */
+.nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 20px;
+    background: linear-gradient(90deg, #007bff, #ff3d00);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Ссылки в навигации --- */
+.link {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/* --- Активная ссылка --- */
+.active-link {
+    text-decoration: underline;
+    color: #ffeb3b;
+}
+
+/* --- Кнопка входа через Google и кнопка выхода --- */
+.login-button,
+.logout-button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Hover-эффект для кнопок входа/выхода */
+.login-button:hover,
+.logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+/*Обёртка для выравнивания*/
+.search-spacer {
+    width: 300px;
+}
+
+/* --- Контейнер профиля --- */
+.profile-container {
+    padding: 20px 40px; /* Отступы, включая отступ слева */
+}
+
+/* --- Заголовок профиля --- */
+.profile-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* --- Текст профиля (имя, email) --- */
+.profile-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* --- Заголовок "Favorite Pokemons" --- */
+.favorites-title {
+    text-align: center; /* Выравниваем по центру */
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

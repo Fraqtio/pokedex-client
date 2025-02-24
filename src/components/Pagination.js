@@ -1,5 +1,5 @@
 import React from "react";
-import { styles } from "../constants/Styles";
+import "../constants/Styles.css";
 
 const Pagination = ({
                         currentPage,
@@ -31,17 +31,14 @@ const Pagination = ({
     const limitOptions = [10, 20, 50];
 
     return (
-        <div style={styles.paginationContainer}>
+        <div className="pagination-container">
             {/* Кнопки выбора количества элементов */}
-            <div style={styles.limitButtonsContainer}>
+            <div className="limit-buttons-container">
                 {limitOptions.map((option) => (
                     <button
                         key={option}
                         onClick={() => onLimitChange(option)}
-                        style={{
-                            ...styles.paginationButton,
-                            ...(option === currentLimit ? styles.activePaginationButton : {}),
-                        }}
+                        className={`pagination-button ${option === currentLimit ? "active-pagination-button" : ""}`}
                     >
                         {option} per page
                     </button>
@@ -49,27 +46,21 @@ const Pagination = ({
             </div>
 
             {/* Основная пагинация */}
-            <div style={styles.paginationButtons}>
+            <div className="pagination-buttons">
                 <button
                     onClick={onPrev}
                     disabled={isPrevDisabled}
-                    style={{
-                        ...styles.paginationButton,
-                        ...(isPrevDisabled ? styles.disabledPaginationButton : {}),
-                    }}
+                    className={`pagination-button ${isPrevDisabled ? "disabled-pagination-button" : ""}`}
                 >
                     Prev
                 </button>
 
                 {pages.map((page, index) => (
                     <React.Fragment key={page}>
-                        {index > 0 && page - pages[index - 1] > 1 && <span style={styles.ellipsis}>...</span>}
+                        {index > 0 && page - pages[index - 1] > 1 && <span className="ellipsis">...</span>}
                         <button
                             onClick={() => onPageChange(page)}
-                            style={{
-                                ...styles.paginationButton,
-                                ...(page === currentPage ? styles.activePaginationButton : {}),
-                            }}
+                            className={`pagination-button ${page === currentPage ? "active-pagination-button" : ""}`}
                         >
                             {page}
                         </button>
@@ -79,10 +70,7 @@ const Pagination = ({
                 <button
                     onClick={onNext}
                     disabled={isNextDisabled}
-                    style={{
-                        ...styles.paginationButton,
-                        ...(isNextDisabled ? styles.disabledPaginationButton : {}),
-                    }}
+                    className={`pagination-button ${isNextDisabled ? "disabled-pagination-button" : ""}`}
                 >
                     Next
                 </button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { styles } from "../constants/Styles"; // Импортируем стили
+import "../constants/Styles.css";
 
 const GoogleLoginButton = () => {
     const handleGoogleLogin = () => {
@@ -7,7 +7,7 @@ const GoogleLoginButton = () => {
     };
 
     return (
-        <button onClick={handleGoogleLogin} style={styles.googleButton}>
+        <button onClick={handleGoogleLogin} className="login-button">
             Login via Google
         </button>
     );

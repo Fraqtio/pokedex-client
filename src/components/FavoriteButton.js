@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import pokemonStore from "../stores/PokemonStore";
-import { styles } from "../constants/Styles";
+import "../constants/Styles.css";
 import blackPok from "../assets/blackPok.png";
 import coloredPok from "../assets/coloredPok.png";
 
@@ -10,12 +10,12 @@ const FavoriteButton = observer(({ pokemonName }) => {
     return (
         <button
             onClick={() => pokemonStore.toggleFavorite(pokemonName)}
-            style={styles.favoriteButton}
+            className="favorite-button"
         >
             <img
                 src={isFavorite ? coloredPok : blackPok}
                 alt="Favorite"
-                style={styles.favoriteIcon}
+                className="favorite-icon"
             />
         </button>
     );

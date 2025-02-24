@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { getTypeColor } from "../constants/pokeTypes";
 import FavoriteButton from "./FavoriteButton";
-import { styles } from "../constants/Styles";
+import "../constants/Styles.css";
 import pokemonStore from "../stores/PokemonStore";
 
 const PokemonCard = ({ name, image, types, stats, abilities, isFavorite }) => {
@@ -9,30 +9,30 @@ const PokemonCard = ({ name, image, types, stats, abilities, isFavorite }) => {
 
     return (
         <div
-            style={styles.card}
+            className="card"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Кнопка избранного */}
             {pokemonStore.isAuthenticated && <FavoriteButton pokemonName={name} initialIsFavorite={isFavorite} />}
 
-            <img src={image} alt={name} style={styles.image} />
-            <h3 style={styles.name}>{name}</h3>
+            <img src={image} alt={name} className="image" />
+            <h3 className="name">{name}</h3>
 
-            <div style={styles.typesContainer}>
+            <div className="types-container">
                 {types.map((type) => (
-                    <span key={type} style={{ ...styles.typeTag, backgroundColor: getTypeColor(type) }}>
+                    <span key={type} className="type-tag" style={{ backgroundColor: getTypeColor(type) }}>
                         {type}
                     </span>
                 ))}
             </div>
 
-            <div style={styles.stats}>
+            <div className="stats">
                 {isHovered ? (
                     <div>
-                        <p style={styles.abilityTitle}>Abilities:</p>
+                        <p className="abilityTitle">Abilities:</p>
                         {abilities.map((ability, index) => (
-                            <p key={index} style={styles.ability}>
+                            <p key={index} className="ability">
                                 {ability}
                             </p>
                         ))}

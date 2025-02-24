@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import pokemonStore from "../stores/PokemonStore";
-import { styles } from "../constants/Styles"; // Импортируем стили
+import "../constants/Styles.css";
 
 const LogoutButton = () => {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ const LogoutButton = () => {
     };
 
     return (
-        <button onClick={handleLogout} style={styles.logoutButton}>
+        <button onClick={handleLogout} className="logout-button">
             Logout
         </button>
     );

@@ -4,34 +4,28 @@ import LogoutButton from "./LogoutButton";
 import GoogleLoginButton from "./GoogleLoginButton";
 import { observer } from "mobx-react-lite";
 import pokemonStore from "../stores/PokemonStore";
-import { styles } from "../constants/Styles"; // Импортируем стили
+import "../constants/Styles.css";
 
 const Navbar = observer(() => {
     const location = useLocation(); // Определяем текущий маршрут
 
     return (
-        <nav style={styles.nav}>
+        <nav className="nav">
             <Link
                 to="/"
-                style={{
-                    ...styles.link,
-                    ...(location.pathname === "/" ? styles.activeLink : {}),
-                }}
+                className={`link ${location.pathname === "/" ? "active-link" : ""}`}
             >
                 Main
             </Link>
 
             <Link
                 to="/profile"
-                style={{
-                    ...styles.link,
-                    ...(location.pathname === "/profile" ? styles.activeLink : {}),
-                }}
+                className={`link ${location.pathname === "/profile" ? "active-link" : ""}`}
             >
                 Profile
             </Link>
 
-            {pokemonStore.isAuthenticated ? ( <LogoutButton />) : ( <GoogleLoginButton /> )}
+            {pokemonStore.isAuthenticated ? <LogoutButton /> : <GoogleLoginButton />}
         </nav>
     );
 });

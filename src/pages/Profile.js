@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import FavoriteList from "../components/FavoriteList";
 import Initializer from "../components/Initializer";
+import "../constants/Styles.css";
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -12,31 +13,25 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            setIsLoading(true);// Устанавливаем состояние загрузки в true перед началом запроса
+            setIsLoading(true);
             try {
-                // Проверяем наличие токена в localStorage
                 const storedToken = localStorage.getItem("token");
-
-                // Запрашиваем данные о пользователе
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
-                    headers: {Authorization: `Bearer ${storedToken}`},
+                    headers: { Authorization: `Bearer ${storedToken}` },
                 });
-
                 setUser(response.data);
             } catch (err) {
                 console.error("Data loading error:", err);
                 localStorage.removeItem("token");
-                // navigate("/");
             }
-            setIsLoading(false); // Устанавливаем состояние загрузки в false после завершения запроса
+            setIsLoading(false);
         };
 
-    fetchUser();
-
+        fetchUser();
     }, [location.search, navigate]);
 
     if (isLoading) {
-        return <div>Loading...</div>; // Отображаем индикатор загрузки
+        return <div>Loading...</div>;
     }
 
     if (!user) {
@@ -44,12 +39,12 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div className="profile-container">
             <Initializer />
-            <h1>Profile</h1>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <h2>Favorite Pokemons</h2>
+            <h1 className="profile-title">Profile</h1>
+            <p className="profile-text"><strong>Name:</strong> {user.name}</p>
+            <p className="profile-text"><strong>Email:</strong> {user.email}</p>
+            <h2 className="favorites-title">Favorite Pokemons</h2>
             <FavoriteList />
         </div>
     );

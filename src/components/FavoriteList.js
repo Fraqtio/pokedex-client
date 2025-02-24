@@ -4,7 +4,7 @@ import pokemonStore from "../stores/PokemonStore";
 import PokemonCard from "./PokemonCard";
 import Pagination from "./Pagination";
 import { allTypes, typeColors } from "../constants/pokeTypes";
-import { styles } from "../constants/Styles";
+import "../constants/Styles.css";
 
 const FavoriteList = observer(() => {
     useEffect(() => {
@@ -14,13 +14,9 @@ const FavoriteList = observer(() => {
     const [searchTerm, setSearchTerm] = useState("");
     const { selectedTypes, offset, limit, pokemonCount, pokemons } = pokemonStore;
 
-    const currentPage = useMemo(() =>
-        Math.floor(offset / limit) + 1,
-        [offset, limit]);
+    const currentPage = useMemo(() => Math.floor(offset / limit) + 1, [offset, limit]);
 
-    const totalPages = useMemo(() =>
-        Math.max(1, Math.ceil(pokemonCount / limit)),
-        [pokemonCount, limit]);
+    const totalPages = useMemo(() => Math.max(1, Math.ceil(pokemonCount / limit)), [pokemonCount, limit]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -33,9 +29,9 @@ const FavoriteList = observer(() => {
     return (
         <div>
             {/* Search and Pagination */}
-            <div style={styles.searchContainer}>
-                <div style={{ width: "300px" }}></div>
-                <div style={styles.paginationWrapper}>
+            <div className="search-container">
+                <div className="search-spacer"></div>
+                <div className="pagination-wrapper">
                     <Pagination
                         currentPage={currentPage}
                         totalPages={totalPages}
@@ -60,18 +56,18 @@ const FavoriteList = observer(() => {
                     placeholder="Search favorites..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
-                    style={styles.searchInput}
+                    className="search-input"
                 />
             </div>
 
             {/* Type Filters */}
-            <div style={styles.typeFiltersContainer}>
+            <div className="type-filters-container">
                 {allTypes.map((type) => (
                     <button
                         key={type}
                         onClick={() => pokemonStore.toggleFavoriteTypeFilter(type)}
+                        className="type-button"
                         style={{
-                            ...styles.typeButton,
                             border: `2px solid ${typeColors[type]}`,
                             backgroundColor: selectedTypes.includes(type) ? typeColors[type] : "transparent",
                             color: selectedTypes.includes(type) ? "#fff" : typeColors[type],
@@ -83,8 +79,8 @@ const FavoriteList = observer(() => {
                 ))}
                 <button
                     onClick={() => pokemonStore.toggleFavoriteTypeFilter(null)}
+                    className="all-button"
                     style={{
-                        ...styles.allButton,
                         backgroundColor: selectedTypes === null ? "#007bff" : "#fff",
                         color: selectedTypes === null ? "#fff" : "#000",
                     }}
@@ -94,7 +90,7 @@ const FavoriteList = observer(() => {
             </div>
 
             {/* Pokemon Grid */}
-            <div style={styles.container}>
+            <div className="container">
                 {pokemons.length > 0 ? (
                     pokemons.map((pokemon) => <PokemonCard key={pokemon.name} {...pokemon} />)
                 ) : (
