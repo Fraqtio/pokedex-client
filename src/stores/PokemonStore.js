@@ -26,12 +26,36 @@ class PokemonStore {
         makeAutoObservable(this);
     }
 
-    checkAuth() {
+    async checkAuth() {
         const token = localStorage.getItem('token');
-        runInAction(() => {
-            this.setAuthenticated(!!token);
-        });
-    };
+
+        if (!token) {
+            runInAction(() => {
+                this.setAuthenticated(false);
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (!response.ok) {
+                throw new Error("Unauthorized");
+            }
+
+            runInAction(() => {
+                this.setAuthenticated(true);
+            });
+        } catch (error) {
+            console.error("Auth check failed:", error);
+            localStorage.removeItem("token"); // 🔹 Удаляем недействительный токен
+            runInAction(() => {
+                this.setAuthenticated(false);
+            });
+        }
+    }
 
     // Действие для обновления статуса аутентификации
     setAuthenticated(isAuthenticated) {
@@ -284,12 +308,6 @@ class PokemonStore {
             });
         }
     }
-
-    clearPokemons() {
-        runInAction(() => {
-            this.pokemons = [];
-        });
-    };
 
     // Обрабатывает данные о покемоне, извлекая нужные параметры
     mapPokemonDetails(data) {
