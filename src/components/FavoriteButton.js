@@ -7,11 +7,13 @@ import coloredPok from "../assets/coloredPok.png";
 const FavoriteButton = observer(({ pokemonName }) => {
     const isFavorite = pokemonStore.favorites.has(pokemonName);
 
+    const toggleFavorite = (event) => {
+        event.stopPropagation(); // ⬅️ Останавливаем всплытие клика, чтобы не срабатывал `onClick` карточки
+        pokemonStore.toggleFavorite(pokemonName);
+    };
+
     return (
-        <button
-            onClick={() => pokemonStore.toggleFavorite(pokemonName)}
-            className="favorite-button"
-        >
+        <button onClick={toggleFavorite} className="favorite-button">
             <img
                 src={isFavorite ? coloredPok : blackPok}
                 alt="Favorite"

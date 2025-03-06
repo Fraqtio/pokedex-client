@@ -79,7 +79,7 @@
     border-radius: 5px;
 }
 
-/* --- Кнопка избранного --- */
+/* --- Кнопка избранного (исправлено) --- */
 .favorite-button {
     position: absolute;
     top: 10px;
@@ -89,12 +89,14 @@
     padding: 5px;
     border-radius: 50%;
     background-color: transparent;
+    z-index: 10;
 }
 
 /* --- Иконка избранного --- */
 .favorite-icon {
     width: 24px;
     height: 24px;
+    pointer-events: none;
 }
 
 /* --- Карточка покемона (улучшенная) --- */
