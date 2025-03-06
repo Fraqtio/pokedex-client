@@ -213,23 +213,29 @@ class PokemonStore {
         });
 
         try {
+            // Если `allPokemons` еще не загружены, сначала загружаем их
+            if (!this.isFullDataLoaded) {
+                await this.fetchAllPokemonData();
+            }
+
+            // Если `favorites` не загружены, сначала загружаем их
             if (!this.isFavoriteLoaded) {
                 await this.fetchUserFavorites();
             }
 
-            // Оставляем только избранных покемонов (совпадение по имени)
+            // Фильтруем `allPokemons`, оставляя только избранных
             let filteredFavorites = this.allPokemons.filter(pokemon =>
                 this.favorites.has(pokemon.name)
             );
 
-            // Фильтрация по поиску
+            // Фильтрация по поисковому запросу
             if (this.searchQuery) {
                 filteredFavorites = filteredFavorites.filter(pokemon =>
                     pokemon.name.toLowerCase().includes(this.searchQuery.toLowerCase())
                 );
             }
 
-            // Фильтрация по типам (если выбраны)
+            // Фильтрация по типам
             if (this.selectedTypes.length > 0) {
                 const typePokemons = this.selectedTypes.map(type =>
                     this.pokemonByType.get(type) || []
@@ -258,7 +264,7 @@ class PokemonStore {
 
             const paginatedFavorites = filteredFavorites.slice(this.offset, this.offset + this.limit);
 
-            // Загружаем детали покемонов
+            // 🔹 Загружаем детали покемонов
             const pokemonList = await Promise.all(paginatedFavorites.map(async (pokemon) => {
                 const data = await fetchPokemonDetails(pokemon.url);
                 return this.mapPokemonDetails(data);

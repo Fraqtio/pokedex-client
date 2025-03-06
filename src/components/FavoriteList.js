@@ -7,15 +7,20 @@ import { allTypes, typeColors } from "../constants/pokeTypes";
 import "../constants/Styles.css";
 
 const FavoriteList = observer(() => {
+    const [searchTerm, setSearchTerm] = useState("");
+    const { selectedTypes, offset, limit, pokemonCount, pokemons, isFavoriteLoaded } = pokemonStore;
+
     useEffect(() => {
-        pokemonStore.filterFavoritePokemons();
+        if (!isFavoriteLoaded) {
+            pokemonStore.fetchUserFavorites().then(() => {
+                pokemonStore.filterFavoritePokemons();
+            });
+        } else {
+            pokemonStore.filterFavoritePokemons();
+        }
     }, []);
 
-    const [searchTerm, setSearchTerm] = useState("");
-    const { selectedTypes, offset, limit, pokemonCount, pokemons } = pokemonStore;
-
     const currentPage = useMemo(() => Math.floor(offset / limit) + 1, [offset, limit]);
-
     const totalPages = useMemo(() => Math.max(1, Math.ceil(pokemonCount / limit)), [pokemonCount, limit]);
 
     useEffect(() => {
@@ -28,7 +33,6 @@ const FavoriteList = observer(() => {
 
     return (
         <div>
-            {/* Search and Pagination */}
             <div className="search-container">
                 <div className="search-spacer"></div>
                 <div className="pagination-wrapper">
@@ -60,7 +64,6 @@ const FavoriteList = observer(() => {
                 />
             </div>
 
-            {/* Type Filters */}
             <div className="type-filters-container">
                 {allTypes.map((type) => (
                     <button
@@ -89,7 +92,6 @@ const FavoriteList = observer(() => {
                 </button>
             </div>
 
-            {/* Pokemon Grid */}
             <div className="container">
                 {pokemons.length > 0 ? (
                     pokemons.map((pokemon) => <PokemonCard key={pokemon.name} {...pokemon} />)

@@ -3,11 +3,13 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import FavoriteList from "../components/FavoriteList";
 import Initializer from "../components/Initializer";
+import pokemonStore from "../stores/PokemonStore";
 import "../constants/Styles.css";
 
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [favoritesLoaded, setFavoritesLoaded] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -20,6 +22,10 @@ const Profile = () => {
                     headers: { Authorization: `Bearer ${storedToken}` },
                 });
                 setUser(response.data);
+
+                // Загружаем избранные покемоны сразу после получения данных пользователя
+                await pokemonStore.fetchUserFavorites();
+                setFavoritesLoaded(true);
             } catch (err) {
                 console.error("Data loading error:", err);
                 localStorage.removeItem("token");
@@ -30,7 +36,7 @@ const Profile = () => {
         fetchUser();
     }, [location.search, navigate]);
 
-    if (isLoading) {
+    if (isLoading || !favoritesLoaded) {
         return <div>Loading...</div>;
     }
 
