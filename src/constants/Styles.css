@@ -7,6 +7,21 @@
     padding: 20px;
 }
 
+/* --- Адаптивность: минимум 2 карточки в ряд на мобильных устройствах --- */
+@media (max-width: 600px) {
+    .container {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 160px;
+        padding: 10px;
+    }
+}
+
 /* --- Контейнер поиска --- */
 .search-container {
     display: flex;
@@ -105,7 +120,7 @@
     left: -4px;
     right: -4px;
     bottom: -4px;
-    background: linear-gradient(45deg, #ff4e50, #fc913a, #f9d423, #4caf50, #2c82c9, #8e44ad);
+    background: linear-gradient(45deg, #ff4e50, #f9d423, #2c82c9);
     border-radius: 14px;
     z-index: -1;
     filter: blur(8px); /* Создаёт эффект мягкой светящейся обводки */
