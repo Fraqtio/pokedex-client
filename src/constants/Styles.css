@@ -7,18 +7,21 @@
     padding: 20px;
 }
 
-/* --- Адаптивность: минимум 2 карточки в ряд на мобильных устройствах --- */
+/* --- Карточки на мобильных устройствах: всегда 2 в ряд --- */
 @media (max-width: 600px) {
     .container {
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-        gap: 5px;
-        padding: 5px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 10px;
+        padding: 10px;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .card {
         width: 100%;
         max-width: 160px;
-        padding: 10px;
+        padding: 8px;
     }
 }
 
